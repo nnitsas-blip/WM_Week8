@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Estate Investing — MCQ Quiz | FIN7E3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#F4F6FB;color:#1A2340;min-height:100vh;padding:2rem 1rem}
+.outer{max-width:860px;margin:0 auto}
+.header{background:#1E2761;color:#fff;border-radius:12px;padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:20px;font-weight:700;letter-spacing:-0.01em}
+.header p{font-size:13px;color:#CADCFC;margin-top:4px}
+.gold-dot{width:10px;height:10px;border-radius:50%;background:#C9A84C;display:inline-block;margin-right:6px}
+.progress-wrap{margin-bottom:1.5rem}
+.progress-meta{display:flex;justify-content:space-between;font-size:13px;color:#8A99B5;margin-bottom:6px}
+.progress-bar-bg{height:6px;background:#D8DEF0;border-radius:3px}
+.progress-bar-fill{height:6px;background:#C9A84C;border-radius:3px;transition:width 0.4s}
+.quiz-card{background:#fff;border-radius:12px;border:1px solid #E2E8F4;padding:2rem;margin-bottom:1rem}
+.q-top{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
+.q-tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.04em;text-transform:uppercase}
+.tag-calc{background:#DBEAFE;color:#1E40AF}
+.tag-concept{background:#F1EFE8;color:#5F5E5A}
+.tag-tax{background:#FEF3C7;color:#92400E}
+.tag-reit{background:#D1FAE5;color:#065F46}
+.q-num{font-size:12px;color:#8A99B5;font-weight:600}
+.scenario-box{background:#F4F6FB;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.25rem;border-left:4px solid #C9A84C}
+.scenario-label{font-size:10px;color:#8A99B5;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+.scenario-text{font-size:14px;color:#1A2340;line-height:1.6}
+.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:0.75rem}
+.data-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 10px;border-radius:6px;background:#fff;border:1px solid #E2E8F4}
+.data-row span:first-child{color:#8A99B5}
+.data-row span:last-child{font-weight:600;color:#1A2340}
+.q-text{font-size:17px;font-weight:600;color:#1A2340;line-height:1.5;margin-bottom:1.25rem}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+.opt-btn{width:100%;text-align:left;padding:13px 18px;border-radius:8px;border:1.5px solid #E2E8F4;background:#fff;font-size:14px;color:#1A2340;cursor:pointer;transition:background 0.15s,border-color 0.15s;line-height:1.5;font-family:Arial,Helvetica,sans-serif}
+.opt-btn:hover:not(:disabled){background:#F4F6FB;border-color:#C9A84C}
+.opt-btn.selected-correct{background:#ECFDF5;border-color:#10B981;color:#065F46}
+.opt-btn.selected-wrong{background:#FEF2F2;border-color:#EF4444;color:#7F1D1D}
+.opt-btn.reveal-correct{background:#ECFDF5;border-color:#10B981;color:#065F46}
+.opt-btn:disabled{cursor:default}
+.opt-label{font-weight:700;margin-right:8px;color:#8A99B5}
+.opt-btn.selected-correct .opt-label{color:#065F46}
+.opt-btn.selected-wrong .opt-label{color:#991B1B}
+.opt-btn.reveal-correct .opt-label{color:#065F46}
+.feedback-box{border-radius:8px;padding:14px 18px;font-size:13px;line-height:1.7;margin-bottom:1.25rem;display:none}
+.feedback-correct{background:#ECFDF5;border:1.5px solid #10B981;color:#064E3B}
+.feedback-wrong{background:#FEF2F2;border:1.5px solid #EF4444;color:#7F1D1D}
+.feedback-box strong{font-weight:700}
+.nav-row{display:flex;justify-content:space-between;align-items:center}
+.score-badge{font-size:13px;color:#8A99B5;font-weight:600}
+.next-btn{padding:10px 24px;background:#1E2761;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-weight:600;display:none;font-family:Arial,Helvetica,sans-serif}
+.next-btn:hover{background:#2a3a85}
+.results-wrap{display:none}
+.results-header{background:#1E2761;color:#fff;border-radius:12px;padding:2rem;text-align:center;margin-bottom:1.5rem}
+.results-score{font-size:64px;font-weight:700;color:#C9A84C}
+.results-pct{font-size:16px;color:#CADCFC;margin-top:4px}
+.results-verdict{font-size:20px;font-weight:700;margin-top:1rem}
+.results-sub{font-size:14px;color:#CADCFC;margin-top:6px;line-height:1.5}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.result-card{background:#fff;border-radius:10px;border:1px solid #E2E8F4;padding:1.25rem;text-align:center}
+.rc-val{font-size:32px;font-weight:700}
+.rc-lbl{font-size:12px;color:#8A99B5;margin-top:4px;font-weight:600}
+.result-card.green .rc-val{color:#059669}
+.result-card.amber .rc-val{color:#D97706}
+.result-card.red .rc-val{color:#DC2626}
+.review-section{background:#fff;border-radius:12px;border:1px solid #E2E8F4;padding:1.5rem;margin-bottom:1.5rem}
+.review-title{font-size:14px;font-weight:700;color:#1A2340;margin-bottom:1rem}
+.review-list{display:flex;flex-direction:column;gap:6px}
+.review-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;padding:10px 12px;border-radius:8px;background:#F4F6FB;border:1px solid #E2E8F4}
+.review-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.dot-correct{background:#10B981}
+.dot-wrong{background:#EF4444}
+.review-q{flex:1;color:#1A2340;line-height:1.4}
+.review-tag-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;flex-shrink:0;margin-top:1px}
+.retry-btn{display:block;width:100%;padding:13px;background:#1E2761;color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;font-weight:700;font-family:Arial,Helvetica,sans-serif;margin-top:0.5rem}
+.retry-btn:hover{background:#2a3a85}
+.divider{height:1px;background:#E2E8F4;margin:1rem 0}
+@media(max-width:600px){
+  .data-grid{grid-template-columns:1fr}
+  .results-grid{grid-template-columns:1fr}
+  .header{flex-direction:column;align-items:flex-start;gap:8px}
+}
+</style>
+</head>
+<body>
+<div class="outer">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1><span class="gold-dot"></span>Real Estate Investing — MCQ Quiz</h1>
+      <p>FIN7E3 · Wealth Management · Regent's University London</p>
+    </div>
+    <div style="font-size:28px;opacity:0.3">🏢</div>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quiz">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="qcounter">Question 1 of 12</span>
+        <span id="scoreBadge">Score: 0 / 0</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="pbar" style="width:0%"></div></div>
+    </div>
+
+    <div class="quiz-card">
+      <div class="q-top">
+        <span class="q-tag" id="qtag"></span>
+        <span class="q-num" id="qnum"></span>
+        <span id="slideSection" style="display:none;font-size:11px;color:#8A99B5;background:#F4F6FB;border:1px solid #E2E8F4;border-radius:20px;padding:2px 10px;margin-left:auto"></span>
+      </div>
+      <div class="scenario-box" id="scenarioBox" style="display:none">
+        <div class="scenario-label">Scenario</div>
+        <div class="scenario-text" id="scenarioText"></div>
+        <div class="data-grid" id="dataGrid"></div>
+      </div>
+      <div class="q-text" id="qtext"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback-box" id="feedback"></div>
+      <div class="divider"></div>
+      <div class="nav-row">
+        <div style="font-size:12px;color:#8A99B5">Select an answer to continue</div>
+        <button class="next-btn" id="nextBtn">Next question →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-wrap" id="results">
+    <div class="results-header">
+      <div class="results-score" id="rScore"></div>
+      <div class="results-pct" id="rPct"></div>
+    </div>
+    <div class="results-grid">
+      <div class="result-card green"><div class="rc-val" id="rCorrect">0</div><div class="rc-lbl">Correct</div></div>
+      <div class="result-card amber"><div class="rc-val" id="rCalc">—</div><div class="rc-lbl">Calculation Qs</div></div>
+      <div class="result-card red"><div class="rc-val" id="rWrong">0</div><div class="rc-lbl">Incorrect</div></div>
+    </div>
+    <div class="review-section">
+      <div class="review-title">Question review</div>
+      <div class="review-list" id="reviewList"></div>
+    </div>
+    <button class="retry-btn" onclick="startQuiz()">↺ Retake quiz</button>
+  </div>
+
+</div>
+
+<script>
+const Qs = [
+  // ── SECTION 2: VALUATION ──────────────────────────────────────────────────
+  {
+    tag:"Calculation", tagClass:"tag-calc",
+    slideSection:"Valuation — Income Approach",
+    scenario:"Aziz is evaluating a Manchester office suite. His surveyor has compiled four comparable sales and derived a market capitalisation rate. The subject property has the following profile:",
+    data:[["Annual passing rent","£52,000"],["Annual operating expenses","£4,800"],["Vacancy allowance","5% of gross rent"],["Recommended cap rate","6.85%"]],
+    q:"Using the income (direct capitalisation) approach, what is the estimated market value of the office suite?",
+    opts:["£651,095","£680,292","£687,117","£608,759"],
+    correct:0,
+    explanation:"NOI = Gross rent × (1 − vacancy rate) − operating expenses = £52,000 × 0.95 − £4,800 = £49,400 − £4,800 = <strong>£44,600</strong>. Value = NOI ÷ cap rate = £44,600 ÷ 0.0685 = <strong>£651,095</strong>. The most common error is forgetting to deduct the vacancy allowance before subtracting operating expenses, or applying the cap rate to gross rent. The correct sequence is always: gross rent → deduct vacancy losses → deduct operating expenses → divide by cap rate."
+  },
+  {
+    tag:"Calculation", tagClass:"tag-calc",
+    slideSection:"Valuation — Exit Price & Forward NOI",
+    scenario:"A retail unit generates a current NOI of £95,000 per annum. The investor intends to hold for 5 years. NOI is projected to grow at 2.0% per annum. The exit cap rate is expected to be 7.25% (applied to Year 6 forward NOI, as is standard UK practice).",
+    data:[["Current NOI","£95,000 p.a."],["NOI growth rate","2.0% p.a."],["Exit cap rate","7.25%"],["Holding period","5 years"]],
+    q:"What is the expected exit sale price at the end of Year 5?",
+    opts:["£1,475,655","£1,169,905","£1,310,345","£1,043,217"],
+    correct:0,
+    explanation:"<strong>Step 1:</strong> Grow NOI to Year 5: £95,000 × (1.02)⁵ = £95,000 × 1.10408 = £104,888. <strong>Step 2:</strong> Calculate Year 6 forward NOI: £104,888 × 1.02 = £106,985. <strong>Step 3:</strong> Apply exit cap rate: £106,985 ÷ 0.0725 = <strong>£1,475,655</strong>. The critical technique is applying the cap rate to the <em>forward</em> (Year 6) NOI, not the trailing Year 5 figure. Using trailing NOI gives £104,888 ÷ 0.0725 = £1,446,731 — a meaningful understatement. This forward-NOI convention reflects the fact that buyers at exit are purchasing future income, not past income. UK chartered surveyors and investment agents universally apply this approach."
+  },
+  {
+    tag:"Calculation", tagClass:"tag-calc",
+    slideSection:"Valuation — Leverage",
+    scenario:"Sofia purchases a residential investment property for £420,000 using 80% debt financing at 6.5% interest-only. After one year she sells the property for £480,000. Ignore taxes and transaction costs.",
+    data:[["Purchase price","£420,000"],["LTV","80% (interest-only)"],["Mortgage rate","6.5% p.a."],["Sale price (Year 1)","£480,000"]],
+    q:"What is Sofia's return on equity with 80% financing, and what would it have been with no leverage?",
+    opts:[
+      "Leveraged: 45.4%; Unleveraged: 14.3%",
+      "Leveraged: 71.4%; Unleveraged: 14.3%",
+      "Leveraged: 45.4%; Unleveraged: 7.1%",
+      "Leveraged: 28.6%; Unleveraged: 14.3%"
+    ],
+    correct:0,
+    explanation:"<strong>Unleveraged:</strong> capital gain = £60,000 on full equity of £420,000 = 14.3%. <strong>Leveraged:</strong> equity = 20% × £420,000 = £84,000. Mortgage = £336,000. Annual interest = 6.5% × £336,000 = £21,840. Net gain = capital gain − interest = £60,000 − £21,840 = £38,160. Return on equity = £38,160 ÷ £84,000 = <strong>45.4%</strong>. This is positive leverage: the unleveraged property return (14.3%) exceeds the cost of debt (6.5%), so leverage amplifies the equity return from 14.3% to 45.4%. If the property had fallen in value to £380,000, the leveraged loss would be amplified to −50.2% versus only −9.5% unleveraged — demonstrating the symmetric amplification of leverage."
+  },
+  {
+    tag:"Calculation", tagClass:"tag-calc",
+    slideSection:"Valuation — DCF / NPV",
+    scenario:"Marco is analysing a 3-year hold of a commercial unit. He projects after-tax cash flows and a net sale at the end of Year 3. His required rate of return is 12% per annum and his initial equity investment is £380,000.",
+    data:[["Year 1 ATCF","£28,000"],["Year 2 ATCF","£31,000"],["Year 3 ATCF","£34,000"],["Year 3 net sale proceeds","£420,000"],["Required return (hurdle rate)","12% p.a."],["Initial equity","£380,000"]],
+    q:"What is the Net Present Value (NPV) of this investment at a 12% discount rate?",
+    opts:["−£7,147","£14,883","−£22,341","£31,270"],
+    correct:0,
+    explanation:"<strong>PV Year 1</strong> = £28,000 ÷ 1.12 = £25,000. <strong>PV Year 2</strong> = £31,000 ÷ 1.2544 = £24,716. <strong>PV Year 3</strong> = (£34,000 + £420,000) ÷ 1.4049 = £454,000 ÷ 1.4049 = £323,137. <strong>Total PV = £372,853.</strong> <strong>NPV = £372,853 − £380,000 = −£7,147.</strong> The negative NPV means this investment earns less than the 12% hurdle rate — Marco should not proceed at this price, or should renegotiate down to increase his equity return. The IRR of this investment is approximately 11.0%, just below the hurdle. This illustrates why IRR and NPV should always be calculated together."
+  },
+  // ── SECTION 4: REITs ──────────────────────────────────────────────────────
+  {
+    tag:"Concept", tagClass:"tag-concept",
+    slideSection:"REITs — Open vs Closed-Ended",
+    scenario:"A high-net-worth client may need to access capital at short notice. Her adviser has identified two UK commercial property vehicles: Vehicle A is an open-ended OEIC holding 18 UK office buildings. Vehicle B is a listed UK REIT invested in the same asset class.",
+    data:[],
+    q:"Which statement most accurately describes the liquidity risk profile of each vehicle?",
+    opts:[
+      "Vehicle A risks gating during market stress because underlying buildings cannot be sold quickly. Vehicle B provides continuous exchange liquidity but share prices may deviate significantly from NAV during stress.",
+      "Both vehicles are equally liquid since both are FCA-regulated and must price assets at NAV.",
+      "Vehicle A offers daily liquidity guaranteed by the FCA; Vehicle B's liquidity depends on stock exchange trading volumes.",
+      "Vehicle B is illiquid because closed-ended funds cannot issue new shares to meet redemption requests."
+    ],
+    correct:0,
+    explanation:"This is a core structural distinction tested in the CFA and CISI exams. Open-ended property funds (OEICs) promise daily dealing but hold illiquid buildings. In stress periods — Brexit referendum 2016, COVID March 2020 — several major UK property OEICs (M&G, Aviva, Janus Henderson) gated, preventing investors from accessing their money for 8+ months. REITs are closed-ended: investors trade shares on the LSE with other investors; the REIT itself faces zero redemption pressure and no buildings need to be sold. However, REIT share prices can fall well below NAV during risk-off periods — investors who sell in stress receive less than NAV. The client who needs capital access should understand that neither vehicle is risk-free; the risks are expressed differently."
+  },
+  {
+    tag:"Concept", tagClass:"tag-concept",
+    slideSection:"REITs — NAV Discount",
+    scenario:null, data:[],
+    q:"A logistics REIT trades at a 14% discount to its reported Net Asset Value (NAV). A bond fund manager argues this means the REIT is obviously cheap. Which response most completely identifies the flaws in this reasoning?",
+    opts:[
+      "The reported NAV may be stale — appraisers lag the market — and the discount may partly compensate for management fees and corporate costs not captured in NAV. The shares are not necessarily mispriced.",
+      "The yield comparison ignores the impact of gearing on the income distribution.",
+      "REITs always trade at a discount; a 14% discount is normal and tells us nothing.",
+      "The discount will close automatically once interest rates fall."
+    ],
+    correct:0,
+    explanation:"The key insight is that NAV is an appraiser's estimate, typically updated quarterly, and valuers demonstrably lag true market conditions (appraisal smoothing). If cap rates have widened since the last appraisal, true NAV is lower than reported — the share price may be correctly pricing in the correction. Additionally, a REIT carries management fees, corporate overheads, and debt servicing costs that reduce the income available to shareholders versus owning the underlying assets directly. The discount compensates for these frictions as well as uncertainty. Option B is partially true but incomplete. Option C is wrong — REITs can and do trade at premiums; the level and direction of the discount matters. Option D is speculative and not guaranteed."
+  },
+  {
+    tag:"Tax", tagClass:"tag-tax",
+    slideSection:"REITs — PID Tax Treatment",
+    scenario:"Helena, an additional-rate taxpayer (45%), holds £40,000 in a UK listed REIT in her general investment account. The REIT pays a Property Income Distribution (PID) yield of 6.0% and a non-PID ordinary dividend yield of 0.4% per annum. Her £500 dividend allowance has already been fully used.",
+    data:[["Investment","£40,000"],["PID yield","6.0% p.a."],["Non-PID dividend yield","0.4% p.a."],["Tax band","45% (additional rate)"],["Dividend allowance remaining","£0 (fully used)"]],
+    q:"What is Helena's total annual after-tax income from this REIT holding (outside an ISA)?",
+    opts:["£1,417","£1,870","£2,096","£2,400"],
+    correct:0,
+    explanation:"<strong>PID income:</strong> £40,000 × 6.0% = £2,400. PIDs are taxed as property income at 45%. The REIT withholds 20% at source (= £480), and Helena owes a further 25% top-up (= £600). Total PID tax = £1,080. Net PID = £2,400 − £1,080 = <strong>£1,320</strong>. <strong>Non-PID dividend:</strong> £40,000 × 0.4% = £160. Taxed at the additional dividend rate of 39.35% (allowance exhausted) = £62.96. Net dividend = £97.04. <strong>Total after-tax = £1,320 + £97.04 = £1,417.</strong> If held in an ISA, all tax is eliminated — after-tax income would be the full £2,560. The ISA advantage for an additional-rate taxpayer holding REITs is therefore 44.7% more income."
+  },
+  {
+    tag:"Tax", tagClass:"tag-tax",
+    slideSection:"REITs — ISA Wrapper",
+    scenario:null, data:[],
+    q:"James, an additional-rate taxpayer, is deciding whether to hold his REIT shares (paying exclusively PIDs) inside a Stocks & Shares ISA or in his general investment account. UK PID tax rates: basic rate 20% (withheld at source), higher rate 40%, additional rate 45%. Which statement best explains the after-tax advantage of the ISA?",
+    opts:[
+      "PIDs inside an ISA are exempt from income tax and the 20% withholding tax can be reclaimed, eliminating the full 45% tax that would otherwise apply in a general account.",
+      "The ISA avoids stamp duty on the purchase of REIT shares, reducing the upfront transaction cost.",
+      "The ISA converts PID income into capital gains, which are taxed at a lower rate.",
+      "There is no difference — PIDs are tax-exempt regardless of wrapper since REITs pay no corporation tax."
+    ],
+    correct:0,
+    explanation:"PIDs are treated as property income — not dividends — and are taxed at the investor's marginal income tax rate. For James at 45%, a 20% withholding tax is applied at source and he owes a further 25% top-up, giving a 45% effective tax rate. Inside a Stocks & Shares ISA, all income including PIDs is received free of UK income tax, and the withholding tax is effectively reclaimed — bringing the effective tax rate to 0%. The REIT's own tax advantage (no corporation tax on qualifying rental profits) is a separate feature that increases the gross income available to distribute; it does not affect the investor's personal tax liability on that income. The ISA wrapper addresses the investor-level tax, not the entity-level tax."
+  },
+  // ── SECTION 5: PORTFOLIO CONSTRUCTION ────────────────────────────────────
+  {
+    tag:"Concept", tagClass:"tag-concept",
+    slideSection:"Portfolio Construction — Suitability",
+    scenario:"Helena is a retired client with £4.5m in liquid assets (equities 55%, gilts 30%, cash 15%) and a 10-year investment horizon. She requires £150,000 per annum from the portfolio. Her adviser proposes adding a 20% allocation to direct UK commercial property (reducing equities to 45% and cash to 5%).",
+    data:[["Total portfolio","£4,500,000"],["Annual income requirement","£150,000 (net)"],["Current real estate allocation","0%"],["Proposed real estate allocation","20% direct property (= £900,000)"],["Investment horizon","10 years"]],
+    q:"Which response from the adviser best reflects appropriate wealth management practice?",
+    opts:[
+      "The allocation may be appropriate given her horizon, but the adviser must assess whether the resulting £900,000 illiquid position would jeopardise her income requirement if rental income is interrupted, and whether she can sustain a multi-year period without capital access.",
+      "Direct property is always suitable for HNW clients with long horizons because the illiquidity premium compensates for the liquidity risk.",
+      "The allocation is unsuitable because commercial property is too volatile for a retired investor.",
+      "The adviser should recommend listed REITs — they provide identical exposure to direct property with full daily liquidity."
+    ],
+    correct:0,
+    explanation:"The correct answer reflects the suitability assessment process central to wealth management regulation (MiFID II, FCA COBS). Key considerations: <strong>(1) Liquidity risk</strong> — £900,000 in direct property cannot be accessed quickly without delay (3-6 months minimum to sell) and material transaction costs. Her £150,000 annual income requirement must be met by liquid assets during any void period or sale process. <strong>(2) Income reliability</strong> — commercial rental income can be interrupted by tenant default, lease expiry, or major capex requirements. <strong>(3) Horizon alignment</strong> — 10 years is reasonable for direct property, but exit timing should ideally align with market cycle peaks. Option B is an overbroad and unsound generalisation. Option C is too restrictive — commercial property is a legitimate asset class for retirees with long horizons and adequate liquidity elsewhere. Option D is wrong — REITs and direct property have materially different characteristics: volatility, correlation, management control, tax treatment, and leverage flexibility."
+  },
+  // ── SECTION 6: ESG ────────────────────────────────────────────────────────
+  {
+    tag:"Concept", tagClass:"tag-concept",
+    slideSection:"Emerging Themes — ESG & EPC Risk",
+    scenario:"An investor is reviewing a 2009-built office building in Birmingham with an EPC rating of E. The asking price is £3.2 million (net initial yield 7.1%). Her five-year exit strategy assumes a sale at the same cap rate. The estimated cost of retrofitting to EPC-B is £280,000.",
+    data:[["Purchase price","£3,200,000"],["Net initial yield","7.1%"],["Current EPC rating","E (minimum currently E)"],["Holding period","5 years"],["EPC-B retrofit cost (estimated)","£280,000"]],
+    q:"Which of the following most completely captures the ESG-related investment risks this investor faces?",
+    opts:[
+      "The property may become unlettable if minimum EPC standards rise above E, and the exit buyer pool will narrow to investors without ESG mandates — both compressing the exit price and widening the exit cap rate beyond assumption.",
+      "The investor will need to increase the rent to fund the retrofit, which may cause the tenant to exercise a break clause.",
+      "ESG risk only affects newly constructed buildings; a 2009-built property is grandfathered under existing regulations.",
+      "The risk is purely reputational — institutional investors may avoid the property but retail investors will still bid at full market value."
+    ],
+    correct:0,
+    explanation:"The correct answer identifies two compounding, financially material risks: <strong>(1) Regulatory risk</strong> — UK minimum EPC standards for commercial lets are tightening. Currently E is the minimum; the direction of travel is toward B by the early 2030s for commercial property. A property that cannot be legally let generates zero income while still incurring costs — a stranded asset. <strong>(2) Exit / valuation risk</strong> — as ESG mandates proliferate among institutional buyers (pension funds, insurance companies, sovereign wealth funds), non-compliant assets face a shrinking buyer pool. Fewer bidders → lower prices → wider cap rates at exit, compounding the loss. These risks interact: if retrofit is needed before sale, the £280,000 cost directly reduces net proceeds. Option C is wrong — there is no grandfathering of existing stock from future regulatory minimum EPC standards."
+  }
+];
+
+let cur=0,score=0,answered=[],userAnswers=[];
+
+function startQuiz(){
+  cur=0;score=0;answered=[];userAnswers=[];
+  document.getElementById('quiz').style.display='block';
+  document.getElementById('results').style.display='none';
+  renderQ();
+}
+
+function renderQ(){
+  const q=Qs[cur];
+  const pct=Math.round((cur/Qs.length)*100);
+  document.getElementById('pbar').style.width=pct+'%';
+  document.getElementById('qcounter').textContent='Question '+(cur+1)+' of '+Qs.length;
+  document.getElementById('scoreBadge').textContent='Score: '+score+' / '+cur;
+  const tag=document.getElementById('qtag');
+  tag.textContent=q.tag;
+  tag.className='q-tag '+q.tagClass;
+  document.getElementById('qnum').textContent='#'+(cur+1);
+  const ss=document.getElementById('slideSection');
+  if(q.slideSection){ss.textContent='📍 '+q.slideSection;ss.style.display='inline-block';}
+  else{ss.style.display='none';}
+
+  const sb=document.getElementById('scenarioBox');
+  if(q.scenario){
+    sb.style.display='block';
+    document.getElementById('scenarioText').innerHTML=q.scenario;
+    const dg=document.getElementById('dataGrid');
+    dg.innerHTML='';
+    (q.data||[]).forEach(([l,v])=>{
+      dg.innerHTML+=`<div class="data-row"><span>${l}</span><span>${v}</span></div>`;
+    });
+  } else { sb.style.display='none'; }
+
+  document.getElementById('qtext').textContent=q.q;
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn';
+    b.innerHTML=`<span class="opt-label">${'ABCD'[i]}.</span>${o}`;
+    b.onclick=()=>selectOpt(i);
+    opts.appendChild(b);
+  });
+
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('nextBtn').style.display='none';
+  document.getElementById('nextBtn').textContent=cur===Qs.length-1?'See results →':'Next question →';
+}
+
+function selectOpt(i){
+  if(answered.includes(cur))return;
+  answered.push(cur);
+  userAnswers.push(i);
+  const q=Qs[cur];
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const btns=document.querySelectorAll('.opt-btn');
+  if(i===q.correct){btns[i].classList.add('selected-correct');score++;}
+  else{btns[i].classList.add('selected-wrong');btns[q.correct].classList.add('reveal-correct');}
+  const fb=document.getElementById('feedback');
+  fb.style.display='block';
+  fb.className='feedback-box '+(i===q.correct?'feedback-correct':'feedback-wrong');
+  fb.innerHTML=(i===q.correct?'<strong>✓ Correct.</strong> ':'<strong>✗ Incorrect.</strong> ')+q.explanation;
+  document.getElementById('nextBtn').style.display='block';
+  document.getElementById('scoreBadge').textContent='Score: '+score+' / '+(cur+1);
+}
+
+document.getElementById('nextBtn').onclick=function(){
+  if(cur<Qs.length-1){cur++;renderQ();}
+  else{showResults();}
+};
+
+function showResults(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('results').style.display='block';
+  const pct=Math.round((score/Qs.length)*100);
+  document.getElementById('rScore').textContent=score+'/'+Qs.length;
+  document.getElementById('rPct').textContent=pct+'% correct';
+  document.getElementById('rCorrect').textContent=score;
+  document.getElementById('rWrong').textContent=Qs.length-score;
+  const calcIs=Qs.reduce((a,q,i)=>q.tag==='Calculation'?[...a,i]:a,[]);
+  const calcRight=calcIs.filter(i=>userAnswers[i]===Qs[i].correct).length;
+  document.getElementById('rCalc').textContent=calcRight+'/'+calcIs.length;
+  const rl=document.getElementById('reviewList');
+  rl.innerHTML='';
+  Qs.forEach((q,i)=>{
+    const correct=userAnswers[i]===q.correct;
+    const tagColors={Calculation:'background:#DBEAFE;color:#1E40AF',Concept:'background:#F1EFE8;color:#5F5E5A',Tax:'background:#FEF3C7;color:#92400E',REIT:'background:#D1FAE5;color:#065F46'};
+    rl.innerHTML+=`<div class="review-item"><div class="review-dot ${correct?'dot-correct':'dot-wrong'}"></div><span class="review-q">${i+1}. ${q.q.substring(0,90)}${q.q.length>90?'…':''}</span><span class="review-tag-badge" style="${tagColors[q.tag]||''}">${q.tag}</span></div>`;
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+startQuiz();
+</script>
+</body>
+</html>
